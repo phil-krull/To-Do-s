@@ -9,5 +9,45 @@
   </form>
 </div>
 <div id="bottom_content">
-  <%= render @todos %>
+  <% if @todos %>
+    <h2>All your To Do's</h2>
+    <div id="left">
+      <h3>To Do:</h3>
+      <% @todos.each do |t|
+        if !t.completed %>
+          <div class="data">
+            <form class="updateTodo" action="/todos/<%= t.id %>" method="post">
+              <input type="hidden" name="_method" value="put">
+              <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+              <textarea name="todo[content]"><%= t.content %></textarea>
+              <button type="submit">Update</button>
+            </form>
+          </div>
+          <div class="completed">
+            <form class="completeTodo" action="/todos/<%= t.id %>" method="post">
+              <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+              <button type="submit">Mark as Complete</button>
+            </form>
+          </div>
+      <% end
+      end %>
+    </div><!-- end of left -->
+    <div id="right">
+      <h3>Completed To Do's:</h3>
+      <% @todos.each do |t|
+        if t.completed %>
+          <div class="data">
+            <div class="content"><%= t.content %></div>
+          </div>
+          <div class="action">
+            <form id="deleteTodo" action="/todos/<%= t.id %>" method="post">
+              <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit">Delete</button>
+            </form>
+          </div>
+      <% end
+      end %>
+    </div><!-- end of right -->
+  <% end %>
 </div><!-- end of bottom_content -->
