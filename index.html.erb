@@ -1,0 +1,13 @@
+<h1>Welcome to <%= session[:user_name] %>'s to do list</h1>
+<h2>Add a new item</h2>
+<div id="createTodo">
+  <form id="addTodo" action="/todos" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <label>Task:</label>
+    <textarea name="todo[content]" cols="50" rows="10"></textarea>
+    <button type="submit">Create</button>
+  </form>
+</div>
+<div id="bottom_content">
+  <%= render @todos %>
+</div><!-- end of bottom_content -->
